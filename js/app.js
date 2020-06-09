@@ -1,10 +1,18 @@
-// function removeContact(id) {
-//     const contactList = JSON.parse(localStorage.getItem('phonebook'));
-//     contactList = contactList.filter(item => item.id !== id);
-//     localStorage.setItem('phonebook', JSON.stringify(contactList));
-//     initTable();
-// }
 madeTable();
+
+function edit(id) {
+    let contactList = JSON.parse(localStorage.getItem('contactList'));
+    let contact = contactList.find(item => item.id == id)
+    document.getElementById('id').value = contact.id
+    document.getElementById('name').value = contact.name
+    document.getElementById('lastName').value = contact.lastName
+    document.getElementById('phone').value = contact.phone
+    document.getElementById('email').value = contact.email
+    document.getElementById('birthday').value = contact.birthday
+    document.getElementById('address').value = contact.address
+    document.getElementById('details').value = contact.details
+}
+
 
 function removeContact(id) {
     let contactList = JSON.parse(localStorage.getItem('contactList'));
@@ -12,6 +20,7 @@ function removeContact(id) {
     localStorage.setItem('contactList', JSON.stringify(contactList))
     madeTable()
 }
+
 function madeTable() {
     const contactList = JSON.parse(localStorage.getItem('contactList'));
     if (!contactList) {
@@ -34,7 +43,7 @@ function madeTable() {
         <td>${contact.phone}</td><td>${contact.email}</td><td>${contact.address}</td>
         <td>${contact.birthday}</td><td>${contact.details}</td>
         <td> <button onclick="deleteRowTable(${contact.id})" class="btn btn-danger" style="padding:0 20px; font-size:15px"> <i class='fa fa-trash '></i></button>
-        <button class="btn btn-primary" style="padding:0 20px; font-size:15px"> <i class='fa fa-edit'></i></button></td>`;
+        <button onclick="edit(${contact.id})" class="btn btn-primary" style="padding:0 20px; font-size:15px"> <i class='fa fa-edit'></i></button></td>`;
         tbody.appendChild(tr);
     })
     table.appendChild(tbody)
@@ -42,16 +51,23 @@ function madeTable() {
 
 document.getElementById('frm').addEventListener('submit', e => {
     e.preventDefault();
-    const contactList = JSON.parse(localStorage.getItem('contactList'));
+    let contactList = JSON.parse(localStorage.getItem('contactList'));
     const getForm = new FormData(e.target);
     let newContact = {};
     for (let item of getForm.entries()) {
         newContact[item[0]] = item[1]
     }
+
+    const contact = contactList.find(item => item.id == newContact.id)
+    if (contact) {
+        contactList = contactList.map(item => item.id == newContact.id ? newContact : item)
+    } else {
+        contactList.push(newContact);
+    }
     // contactList = [...contactList, newContact]
-    contactList.push(newContact);
     localStorage.setItem('contactList', JSON.stringify(contactList))
     madeTable();
+    e.target.reset()
 })
 
 

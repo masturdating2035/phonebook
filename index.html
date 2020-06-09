@@ -17,12 +17,13 @@
             <div class="form-row mb-3">
                 <div class="col-md-2 mb-3">
                     <label for="id">ID:</label>
-                    <input type="number" name="id" id="id" class="form-control" placeholder="Id for contact">
+                    <input type="number" name="id" id="id" class="form-control" placeholder="Id for contact" min="0"
+                        required>
                 </div>
 
                 <div class="col-md-5 mb-3">
                     <label for="name">Name:</label>
-                    <input type="text" name="name" id="name" class="form-control" placeholder="Enter name">
+                    <input type="text" name="name" id="name" class="form-control" placeholder="Enter name" required>
                 </div>
 
                 <div class="col-md-5 mb-3">
@@ -68,6 +69,25 @@
             </div>
         </form>
 
+    </div>
+
+    <div class="container">
+        <div class="row mb-3">
+            <div class="col-9 mx-auto">
+                <form id="searchForm">
+                    <div class="row">
+                        <div class="col-10 px-0">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <div class="col-1 p-0">
+                            <button type="submit"
+                                class="btn btn-primary p-2 d-flex justify-content-center align-items-center"
+                                style="height: 38px;" ><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
 
