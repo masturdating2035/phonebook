@@ -1,4 +1,9 @@
-madeTable();
+madeTable(JSON.parse(localStorage.getItem('contactList')));
+
+function setContacts(contacts) {
+    localStorage.setItem('contactList', JSON.stringify(contacts))
+    madeTable(contacts)
+}
 
 function edit(id) {
     let contactList = JSON.parse(localStorage.getItem('contactList'));
@@ -17,16 +22,10 @@ function edit(id) {
 function removeContact(id) {
     let contactList = JSON.parse(localStorage.getItem('contactList'));
     contactList = contactList.filter(item => item.id != id)
-    localStorage.setItem('contactList', JSON.stringify(contactList))
-    madeTable()
+    setContacts(contactList)
 }
 
-function madeTable() {
-    const contactList = JSON.parse(localStorage.getItem('contactList'));
-    if (!contactList) {
-        localStorage.setItem('contactList', JSON.stringify([]))
-        return;
-    }
+function madeTable(contacts) {
     const delTbody = document.getElementsByTagName('tbody');
     if (delTbody.length > 0) {
         delTbody[0].remove();
@@ -36,9 +35,8 @@ function madeTable() {
     const tbody = document.createElement('tbody');
 
 
-    contactList.map(contact => {
+    contacts.map(contact => {
         const tr = document.createElement('tr');
-
         tr.innerHTML = `<td>${contact.id}</td><td>${contact.name}</td><td>${contact.lastName}</td>
         <td>${contact.phone}</td><td>${contact.email}</td><td>${contact.address}</td>
         <td>${contact.birthday}</td><td>${contact.details}</td>
@@ -65,12 +63,20 @@ document.getElementById('frm').addEventListener('submit', e => {
         contactList.push(newContact);
     }
     // contactList = [...contactList, newContact]
-    localStorage.setItem('contactList', JSON.stringify(contactList))
-    madeTable();
+    setContacts(contactList)
     e.target.reset()
 })
 
 
+
+document.getElementById('form-search').addEventListener('submit', e => {
+    e.preventDefault();
+    let contactList = JSON.parse(localStorage.getItem('contactList'));
+    let search = document.getElementById('form-search-input').value
+    contactList = contactList.filter(item => item.name.toLowerCase().startsWith(search.toLowerCase()))
+    madeTable(contactList)
+
+})
 
 
 function deleteRowTable(id) {
