@@ -1,4 +1,31 @@
 madeTable(JSON.parse(localStorage.getItem('contactList')));
+checkBirthday()
+
+
+function checkBirthday() {
+    let contacts = JSON.parse(localStorage.getItem('contactList'));
+
+    contacts.forEach(contact => {
+        const birthday = new Date(contact.birthday)
+        let birthday_day = birthday.getDate()
+        let birthday_month = birthday.getMonth()
+
+        let today = new Date();
+        let today_day = today.getDate()
+        let today_month = today.getMonth()
+
+        if (today_day == birthday_day && today_month == birthday_month) {
+            Swal.fire({
+                title: 'تولدت مبارک عشقم',
+                text: ` ${contact.name} تولد تولد، تولدت مبارک`,
+                imageUrl: 'https://unsplash.it/400/200',
+                imageWidth: 400,
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+            })
+        }
+    })
+}
 
 function setContacts(contacts) {
     localStorage.setItem('contactList', JSON.stringify(contacts))
