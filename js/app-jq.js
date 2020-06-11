@@ -5,7 +5,7 @@ checkBirthday()
 function checkBirthday() {
     let contacts = JSON.parse(localStorage.getItem('contactList'));
 
-    contacts.each(contact => {
+    $.each(contacts,contact => {
         const birthday = new Date(contact.birthday)
         let birthday_day = birthday.getDate()
         let birthday_month = birthday.getMonth()
